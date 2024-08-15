@@ -9,15 +9,6 @@ import {
   deleteEvent,
   Form,
 } from "./model";
-import React, { useState } from "react";
-import {
-  MultiSelector,
-  MultiSelectorTrigger,
-  MultiSelectorInput,
-  MultiSelectorContent,
-  MultiSelectorList,
-  MultiSelectorItem,
-} from "~/shared/ui/multiselect";
 import { SideBar } from "~/widgets/sidebar/ui";
 import { Header } from "~/widgets/header/ui";
 import { Input } from "~/shared/ui/input";
@@ -25,53 +16,48 @@ import {
   DragDropContext,
   Draggable,
   Droppable,
-  DropResult,
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
 import { useUnit } from "effector-react";
-import { OrderDetail } from "~/shared/types/orderDetails";
 import { cn } from "~/shared/lib/utils";
 import { OrderNew } from "~/widgets/order_new/ui";
 import { Status } from "./types";
 import { OrderBlank } from "~/widgets/order_blank/ui";
 import { OrderReady } from "~/widgets/order_ready/ui";
 import { OrderCourier } from "~/widgets/order_courier/ui";
-import { format } from "date-fns";
-import { TimePicker } from "~/shared/ui/timePicker";
-import { Button } from "~/shared/ui/button";
 
-const options = [
-  { label: "To do", value: "0" },
-  { label: "In-Progress", value: "1" },
-  { label: "In Review", value: "2" },
-  { label: "Completed", value: "3" },
-  { label: "Archieved", value: "4" },
-];
+// const options = [
+//   { label: "To do", value: "0" },
+//   { label: "In-Progress", value: "1" },
+//   { label: "In Review", value: "2" },
+//   { label: "Completed", value: "3" },
+//   { label: "Archieved", value: "4" },
+// ];
 
-const MultiSelectTest = () => {
-  const [value, setValue] = useState<string[]>([]);
-  return (
-    <MultiSelector
-      className="w-64"
-      values={value}
-      onValuesChange={setValue}
-      loop={false}
-    >
-      <MultiSelectorTrigger icon="search">
-        <MultiSelectorInput placeholder="Text input" />
-      </MultiSelectorTrigger>
-      <MultiSelectorContent className="max-h-64">
-        <MultiSelectorList>
-          {options.map((option, i) => (
-            <MultiSelectorItem key={i} value={option.value}>
-              {option.label}
-            </MultiSelectorItem>
-          ))}
-        </MultiSelectorList>
-      </MultiSelectorContent>
-    </MultiSelector>
-  );
-};
+// const MultiSelectTest = () => {
+//   const [value, setValue] = useState<string[]>([]);
+//   return (
+//     <MultiSelector
+//       className="w-64"
+//       values={value}
+//       onValuesChange={setValue}
+//       loop={false}
+//     >
+//       <MultiSelectorTrigger icon="search">
+//         <MultiSelectorInput placeholder="Text input" />
+//       </MultiSelectorTrigger>
+//       <MultiSelectorContent className="max-h-64">
+//         <MultiSelectorList>
+//           {options.map((option, i) => (
+//             <MultiSelectorItem key={i} value={option.value}>
+//               {option.label}
+//             </MultiSelectorItem>
+//           ))}
+//         </MultiSelectorList>
+//       </MultiSelectorContent>
+//     </MultiSelector>
+//   );
+// };
 
 const bookedDays = [new Date("9/21/2020")];
 const holidays = [
@@ -82,14 +68,8 @@ const holidays = [
 
 export function Main() {
   const {
-    fields: { date, time },
-    submit,
+    fields: { date /*time*/ },
   } = useForm(Form);
-
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    submit();
-  };
 
   return (
     <div className="flex">
@@ -146,7 +126,7 @@ export function Main() {
               </div>
             </div>
           </div>
-          <Board withScrollableColumns isCombineEnabled />
+          <Board isCombineEnabled />
           {/* <div className="flex">
             <div className="pt-2 pb-[23px] px-3 w-60 rounded bg-white m-10 drop-shadow-2xl">
               <div className="flex items-center justify-between py-2 pl-[3.5px] mb-2">
@@ -243,9 +223,7 @@ type BoardProps = {
   isCombineEnabled: boolean;
 };
 
-function Board({
-  isCombineEnabled = false,
-}: BoardProps) {
+function Board({ isCombineEnabled = false }: BoardProps) {
   const [orders, onChange, onIndexChange, onDelete] = useUnit([
     $orders,
     changeEvent,

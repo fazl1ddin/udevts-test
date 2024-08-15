@@ -153,12 +153,12 @@ const MultiSelectorTrigger = forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { icon?: AnyIconName }
 >(({ className, children, icon, ...props }, ref) => {
-  const { value, onValueChange, activeIndex, open } = useMultiSelect();
+  const {  open } = useMultiSelect();
 
-  const mousePreventDefault = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-  }, []);
+  // const mousePreventDefault = useCallback((e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  // }, []);
 
   return (
     <div
